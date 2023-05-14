@@ -118,17 +118,26 @@ product1 = {
 product1.itemPurchased("You just bought a");
 
 interface Person {
-  name: string;
+  firstName: string;
+  lastName: string;
   age: number;
 }
 
 class Person implements Person {
   // Public declaration before constructor param initializes it, don't need to this.foo = foo
-  constructor(public name: string, public age: number) {}
+  constructor(
+    public firstName: string,
+    public lastName: string,
+    public age: number
+  ) {}
+
+  greet() {
+    console.log("Hello!");
+  }
 }
 
-const person1 = new Person("Gabriel", 30);
-console.log(`${person1.name} is ${person1.age} years old.}`);
+const person1 = new Person("Gabriel", "Smith", 30);
+console.log(`${person1.firstName} is ${person1.age} years old.}`);
 
 interface UserSchema {
   id: number;
@@ -149,11 +158,42 @@ const rooms = new HotelRooms();
 rooms.A201 = "José";
 
 // Inheritance
-class Citzen {
-  constructor(
-    public firstName: string,
-    public lastName: string,
-    public age: number
-  ) {}
-  greet() {}
+class Client extends Person {
+  getSoppingCart() {
+    console.log(["Potato", "Orange", "Cereal"])
+  }
 }
+
+class Staff extends Person {
+  override greet(): void {
+    super.greet()
+    console.log("how can I help you?")
+  }
+}
+
+const staff1 = new Staff("Ana", "Maria", 32)
+const client1 = new Client("Pedro", "Paulo", 40);
+client1.greet()
+staff1.greet()
+client1.getSoppingCart()
+
+class Furniture {
+  constructor(protected manufacturer: string = "IKEA") {}
+}
+
+class Desk extends Furniture{
+  kind(){
+    console.log(`This is a desk made by ${this.manufacturer}`)
+  }
+}
+
+class Chair extends Furniture {
+  kind() {
+    console.log(`This is a chair made by ${this.manufacturer}`)
+  }
+}
+
+const desk = new Desk()
+desk.kind()
+const chair = new Chair
+chair.kind()
